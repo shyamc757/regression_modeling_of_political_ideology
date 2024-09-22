@@ -39,7 +39,8 @@ def tweet_cleaner(input_text):
     if not input_text:
         return ""
     input_text = cleantext.clean(input_text,
-                                    punct = True # removal of punctuation
+                                    punct = True, # removal of punctuation
+                                    lowercase = True # converting string to lowercase
                                     )
     stop_words = set(stopwords.words('english'))
     input_text = " ".join([word for word in input_text.split() if word not in stop_words]) # removal of stopwords
@@ -60,12 +61,22 @@ def nltk_tag_to_wordnet_tag(nltk_tag):
     else:          
         return(None)
 
+# removal of b's in the beginning 
+# def removeB(input_text):
+#     if (input_text.startswith("b'") or input_text.startswith("b\"")) and input_text.endswith("'"):
+#         input_text = input_text[2:-1]
+        
+#     if (input_text.startswith("b'") or input_text.startswith("b\"")) and (not(input_text.endswith("'"))):
+#         input_text = input_text[2:]
+#     return input_text
+
 ##Lemmatizes the words in tweets and returns the cleaned and lemmatized tweet
 def lemmatize_tweet(tweet):
     #tokenize the tweet and find the POS tag for each token
     # return if empty string
     if not tweet:
         return "" 
+    # tweet = removeB(tweet)
     tweet = tweet_cleaner(tweet) #tweet_cleaner() will be the function you will write
     nltk_tagged = nltk.pos_tag(nltk.word_tokenize(tweet))  
     #tuple of (token, wordnet_tag)
